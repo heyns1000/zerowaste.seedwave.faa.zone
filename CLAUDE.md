@@ -2,6 +2,9 @@
 
 This file provides guidance for AI assistants (Claude and others) working in this repository.
 
+**Last Updated:** 2026-06-02
+**Branch:** `claude/claude-md-docs-1rko8`
+
 ---
 
 ## Project Overview
@@ -35,6 +38,10 @@ the bridges — no tools required.
 - 18 patent claims covering apparatus, method, and dual-market applications
 - $5B global addressable market (commercial + retail)
 
+**Ecosystem position:** Block Box™ is node 21 of 21 brands in the Zerowaste ecosystem
+(see `docs/zerowaste-unified-repository.json`). The other 20 are digital infrastructure brands
+(CleanTrack™, GreenLoop™, etc.); Block Box™ is the sole physical-product patent node.
+
 ---
 
 ## Technology Stack
@@ -50,12 +57,14 @@ the bridges — no tools required.
 
 ```
 zerowaste.seedwave.faa.zone/
-├── CLAUDE.md          # This file — AI assistant guide
-├── index.html         # Single-page site (all sections)
+├── CLAUDE.md                              # This file — AI assistant guide
+├── index.html                             # Single-page site (all sections)
 ├── css/
-│   └── style.css      # All styles — CSS custom properties, responsive
-└── js/
-    └── main.js        # Nav scroll, mobile menu, counter animation, form UX
+│   └── style.css                          # All styles — CSS custom properties, responsive
+├── js/
+│   └── main.js                            # Nav scroll, mobile menu, counter animation, form UX
+└── docs/
+    └── zerowaste-unified-repository.json  # Unified ecosystem data export (21 brands, Base44 + Block Box™)
 ```
 
 No build step. No package.json. No dependencies. Open `index.html` directly in a browser.
@@ -66,47 +75,130 @@ No build step. No package.json. No dependencies. Open `index.html` directly in a
 
 | Section ID        | Content |
 |-------------------|---------|
-| `#hero`           | Full-viewport hero — headline, stats bar, CTAs |
-| `#problem`        | Industry problem — traditional vs Block Box™ comparison table |
-| `#solution`       | Innovation overview — 6-benefit grid |
-| `#how-it-works`   | 3-step process with animated reveal |
-| `#markets`        | Dual-market platform (commercial + retail) |
-| (retail section)  | Claim 15 retail point-of-sale method — 4-step flow + outcome stats |
-| `#impact`         | Environmental metrics with counter animation |
-| `#patent`         | 18 claims summary, patent details, filing timeline |
-| `#licensing`      | 3 license card types (manufacturing, dual, retail) |
-| `#contact`        | NDA-gated enquiry form |
-| footer            | Links, patent pending notice, confidentiality notice |
+| `#hero`           | Full-viewport hero — headline, stats bar (18 claims / 94% / 60% / $5B), CTAs |
+| `#problem`        | Industry problem — traditional ($87/unit) vs Block Box™ ($22/unit) comparison table |
+| `#solution`       | Innovation overview — 6-benefit grid (mono-material, bridges, zero packaging, etc.) |
+| `#how-it-works`   | 3-step process (CNC cutting → shipping → dispensing) with animated reveal |
+| `#markets`        | Dual-market platform — commercial ($2.5B) and retail ($2.5B) side-by-side |
+| *(retail section)*| Claim 15 retail point-of-sale method — 4-step flow + 4 outcome stats |
+| `#impact`         | Environmental metrics with counter animation (94%, 50%, 100%, 6×) |
+| `#patent`         | 18 claims summary grouped by type + 5-milestone filing timeline |
+| `#licensing`      | 3 license card types (manufacturing, dual [featured], retail) |
+| `#contact`        | NDA-gated enquiry form (name, company, email, country, license type, message) |
+| footer            | Brand links, patent pending notice, confidentiality notice |
+
+**Navigation links:** Innovation → How It Works → Markets → Impact → Patent → License Enquiry (CTA)
 
 ---
 
 ## Design System
 
-**Color palette (CSS custom properties in `style.css`):**
-- `--navy` (#0a1628) — primary dark background
-- `--forest` (#052e16) — impact/environmental section
-- `--green` (#16a34a) — primary accent (CTAs, tags, checkmarks)
-- `--green-glow` (#4ade80) — bright green for dark backgrounds
-- `--amber-bright` (#f59e0b) — patent status / active timeline item
-- `--white` / `--off-white` / `--border` — light section surfaces
+### Color Palette (CSS custom properties in `css/style.css` `:root`)
 
-**Typography:**
-- Display/headings: `Space Grotesk` (Google Fonts)
-- Body: `Inter` (Google Fonts)
-- Heading scale: `clamp(2rem, 4vw, 3rem)` for section titles
+| Variable          | Value      | Usage |
+|-------------------|------------|-------|
+| `--navy`          | `#0a1628`  | Primary dark background (hero, how-it-works, contact) |
+| `--navy-mid`      | `#0f1f38`  | Mid-tone navy accent |
+| `--navy-light`    | `#1e3a5f`  | Lighter navy for borders on dark surfaces |
+| `--forest`        | `#052e16`  | Impact / environmental section background |
+| `--green`         | `#16a34a`  | Primary accent — CTAs, tags, checkmarks, borders |
+| `--green-bright`  | `#22c55e`  | Bright green (mobile nav CTA link) |
+| `--green-glow`    | `#4ade80`  | Light green for dark backgrounds (step chips, metrics) |
+| `--green-pale`    | `#dcfce7`  | Light green fills (tag background, benefit hover) |
+| `--green-border`  | `#bbf7d0`  | Light green border (compare good column, market retail) |
+| `--amber`         | `#d97706`  | Patent status label color |
+| `--amber-bright`  | `#f59e0b`  | Amber pulse dot, active timeline, claim 13–18 badge |
+| `--red`           | `#dc2626`  | Compare "bad" column icon and list markers |
+| `--red-pale`      | `#fee2e2`  | Compare "bad" column background fill |
+| `--red-border`    | `#fecdd3`  | Compare "bad" column border |
+| `--white`         | `#ffffff`  | Pure white |
+| `--off-white`     | `#f8fafc`  | Gray section background, license card base |
+| `--border`        | `#e2e8f0`  | Default light border |
+| `--text`          | `#1e293b`  | Primary body text |
+| `--text-light`    | `#64748b`  | Secondary / muted text |
+| `--text-muted`    | `#94a3b8`  | Very muted — labels, captions |
 
-**Spacing:** `7rem 0` section padding (desktop), `5rem 0` (mobile ≤768px)
+### Other CSS Custom Properties
+
+```css
+--font-body:    'Inter', system-ui, -apple-system, sans-serif
+--font-display: 'Space Grotesk', 'Inter', sans-serif
+--nav-h: 68px          /* used by JS for smooth-scroll offset too */
+--r-sm: 6px  --r-md: 12px  --r-lg: 20px  --r-xl: 28px  --r-pill: 9999px
+--shadow-sm / --shadow-md / --shadow-lg
+--ease: 0.2s ease
+```
+
+### Typography
+
+- Display/headings: `Space Grotesk` (Google Fonts, weights 400–800)
+- Body: `Inter` (Google Fonts, weights 300–900)
+- Section title: `clamp(2rem, 4vw, 3rem)`, weight 800
+- Hero headline: `clamp(3.5rem, 10vw, 8rem)`, weight 900
+
+### Layout
+
+- Container: `max-width: 1160px`, `padding: 0 2rem`
+- Section padding: `7rem 0` (desktop), `5rem 0` (≤768px)
+
+### Section Backgrounds
+
+| Class             | Background        |
+|-------------------|-------------------|
+| `.section--white` | `--white`         |
+| `.section--gray`  | `--off-white`     |
+| `.section--dark`  | `--navy`          |
+| `.section--forest`| `--forest`        |
+
+---
+
+## Responsive Breakpoints
+
+| Breakpoint   | Changes |
+|--------------|---------|
+| `≤1024px`    | Benefits → 2-col; Metrics → 2-col; Patent grid → 1-col; Retail outcome → 2-col; Impact scale → 2-col |
+| `≤768px`     | Desktop nav hidden, burger shown; sections 5rem padding; hero stats 2×2 grid; compare/benefits/markets → 1-col; steps → 1-col; retail arrows rotate 90°; license cards → 1-col; forms → 1-col; footer stacks |
+| `≤480px`     | Metrics and retail outcome → 1-col |
 
 ---
 
 ## JavaScript Behaviour (js/main.js)
 
-1. **Sticky nav** — adds `.is-scrolled` class after 40px scroll (blur backdrop)
-2. **Mobile burger** — toggles `.is-open` on `#mobileNav` and `#burgerBtn`
-3. **Smooth scroll** — all `a[href^="#"]` scroll with nav height offset
-4. **Step reveal** — `IntersectionObserver` adds `.is-visible` to `.step` elements
-5. **Counter animation** — cubic ease-out counters for `.metric .count` elements when scrolled into view
-6. **Contact form** — client-side validation (highlights invalid fields), success state, auto-reset after 6s
+All code runs in an IIFE (`(function(){ 'use strict'; })()`). No dependencies.
+
+1. **Sticky nav** — adds `.is-scrolled` to `#nav` after 40px scroll (blur backdrop, shadow)
+2. **Mobile burger** — toggles `.is-open` on `#mobileNav` and `#burgerBtn`; closes on any `.mnav-link` click; updates `aria-expanded`
+3. **Smooth scroll** — all `a[href^="#"]` scroll with `--nav-h` CSS variable offset (68px)
+4. **Step reveal** — `IntersectionObserver` (threshold 0.15) adds `.is-visible` to `.step` elements with 160ms staggered delay; unobserves after trigger
+5. **Counter animation** — `IntersectionObserver` (threshold 0.5) triggers cubic ease-out counter for `.metric .count[data-target]` elements; `data-target` attribute holds the final integer; runs over 2000ms
+6. **Contact form** — client-side validation (red border on invalid `[required]` fields); success state on `#submitBtn`; auto-reset after 6 seconds; no backend submission
+
+---
+
+## Docs Directory
+
+### `docs/zerowaste-unified-repository.json`
+
+A JSON export of the full Zero Waste ecosystem data (schema version `ZW-REPO-SCHEMA-2026`), exported 2026-02-26.
+
+**Top-level keys:**
+
+| Key                     | Description |
+|-------------------------|-------------|
+| `repo_metadata`         | Schema version, export dates, totals (21 brands, 84 subnodes, 52,702 active nodes) |
+| `zerowaste_ecosystem`   | All 21 brands: 20 system brands + `block_box_node` |
+| `world_transactions`    | 24h transaction snapshot by brand and geographic region |
+| `sector_insights`       | Deployment zones, security ratings, top brands by nodes, ecosystem health |
+| `vault_network`         | 21 vault IDs, sync status |
+
+**Block Box™ node** (`block_box_node`) contains the most detail:
+- `patent_status` — all 18 claims, filing timeline, prior art result
+- `technical_specifications` — bridge widths, EPS densities, cutting precision, etc.
+- `economic_metrics` — cost comparisons, market sizes, projected licensing revenue
+- `environmental_metrics` — waste reduction, CO₂ savings, global adoption projections
+- `dual_market` — commercial and retail segment specs
+
+This file is **reference data** — it is not loaded or consumed by `index.html`. It documents the ecosystem position of Block Box™ and provides the authoritative source for all numeric claims on the website.
 
 ---
 
@@ -124,7 +216,7 @@ npx serve .                            # Node serve (if available)
 
 ### Editing styles
 
-Edit `css/style.css` directly. CSS custom properties are defined in `:root` at the top of the file.
+Edit `css/style.css` directly. All custom properties are in `:root` at the top of the file.
 
 ### Editing content
 
@@ -132,7 +224,7 @@ All site content is in `index.html`. Section IDs and class names are documented 
 
 ### No linting/build required
 
-The project has no tooling. Just edit files and refresh the browser.
+No tooling. Edit files and refresh the browser.
 
 ---
 
@@ -141,6 +233,7 @@ The project has no tooling. Just edit files and refresh the browser.
 ### Branch Naming
 
 - Claude-managed branches: `claude/<description>-<session-id>`
+- **Active branch:** `claude/claude-md-docs-1rko8`
 - Never push to `main` without explicit permission from the inventor
 
 ### Commit Messages
@@ -167,6 +260,9 @@ This website describes a **patent-pending invention**. When editing content, pre
 - **Metrics:** 94% waste reduction, 50% carbon savings, 40–60% shipping savings — sourced from patent documentation
 - **Market size:** $5B total ($2.5B commercial + $2.5B retail)
 - **Bridge specs:** 12–20mm width, 2–5kg separation force, no tools required
+- **Cost comparison:** Traditional $87/unit → Block Box™ $22/unit (75% reduction)
+- **EPS densities:** 12–36 DV range, optimal 20–24 DV
+- **Stacking load:** 500kg while shipping
 
 Do NOT change numeric claims or patent-related statements without confirming with the inventor.
 
@@ -175,9 +271,10 @@ Do NOT change numeric claims or patent-related statements without confirming wit
 ## Security & Confidentiality
 
 - **Do not commit** `.env` files, credentials, API keys, or secrets
-- The site includes a confidentiality notice — this is intentional; do not remove it
+- The site includes a confidentiality notice in the contact section — this is intentional; do not remove it
 - `<meta name="robots" content="noindex, nofollow">` is intentional — the site should not be indexed until the inventor decides otherwise
 - Do not add analytics, tracking scripts, or third-party embeds without explicit instruction
+- The footer `"Confidential — Not for public distribution"` label is intentional
 
 ---
 
@@ -200,6 +297,7 @@ The following is not yet implemented but may be requested:
 - **Preserve content accuracy.** Patent claims, metrics, and dates are legally significant.
 - **Minimal scope.** Only make changes directly requested or clearly necessary.
 - **No frameworks.** The project is intentionally dependency-free. Do not add npm, bundlers, or frameworks unless explicitly asked.
-- **Branch discipline.** Develop on the designated `claude/` branch; never push to `main`.
+- **Branch discipline.** Develop on `claude/claude-md-docs-1rko8`; never push to `main`.
 - **Confirm before destructive actions.** Any change to patent-related content warrants a confirmation.
+- **Don't modify `docs/zerowaste-unified-repository.json`** without explicit instruction — it is the authoritative source of record for the ecosystem.
 - **Update this file** if you add new sections, change the tech stack, or add new scripts.
